@@ -30,7 +30,7 @@ class Bot::Plugin::Pong < Bot::Plugin
         pong: [:method_to_call, 0, 'Pongs the bot.'],
         change_reply: [:change_reply, 0, 'Change the pong reply message']
       },
-      reply_with: "peng",
+      reply_with: 'peng',
       subscribe: false
     }
 
@@ -46,6 +46,16 @@ class Bot::Plugin::Pong < Bot::Plugin
     @s[:reply_with] = new_reply
     save_settings
     msg.reply "Changed to #{new_reply}"
+  end
+
+  # Example with complex arguments and auth
+  def parse_cmd(msg)
+    case msg.args
+      in ['check']
+        msg.reply @s[:reply_with]
+      in ['set', new_reply] if auth_r(4, msg)
+        change_reply(new_reply)
+    end
   end
 
   # The method called when an adapter is fully ready
