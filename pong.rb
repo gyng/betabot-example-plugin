@@ -53,8 +53,8 @@ class Bot::Plugin::Pong < Bot::Plugin
     case msg.args
       in ['check']
         msg.reply @s[:reply_with]
-      in ['set', new_reply] if auth_r(4, msg)
-        change_reply(new_reply)
+      in ['set', *rest_of_args] if auth_r(4, msg)
+        change_reply(*rest_of_args.join(' '))
     end
   end
 
